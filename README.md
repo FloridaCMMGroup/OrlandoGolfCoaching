@@ -1,6 +1,6 @@
 # orlandogolfcoaching.com
 
-Landing page #2 for John Hughes Golf: season-long golf coaching programs. Same build as orlandogolfcoaching.com (static page, Cloudflare Pages Function for the form, ActiveCampaign API), with its own list and tag. It's a static site on Cloudflare Pages with one Pages Function that sends the form to ActiveCampaign.
+Landing page #2 for John Hughes Golf: season-long golf coaching programs. Same build as golflessonsinorlando.com (static page, form handler, ActiveCampaign API), with its own list and tag. It runs as a Cloudflare Worker: static files are served from the repo, and `worker.js` sends `/api/request-call` to the form handler, which passes the lead to ActiveCampaign.
 
 ## What's in this folder
 
@@ -9,7 +9,7 @@ Landing page #2 for John Hughes Golf: season-long golf coaching programs. Same b
 | `index.html` | The page: copy, form, thank-you message, search markup (local business and FAQ) |
 | `styles.css` | All styling. Brand colors: deep purple, orange, light lavender |
 | `app.js` | Form behavior: fills hidden tracking fields, checks required fields, sends the form, shows the thank-you message |
-| `functions/api/request-call.js` | Cloudflare Pages Function at `/api/request-call`. Checks Turnstile, validates, sends the lead to ActiveCampaign |
+| `functions/api/request-call.js` | Form handler for `/api/request-call`, called from `worker.js`. Checks Turnstile, validates, sends the lead to ActiveCampaign |
 | `thank-you.html` | Shown only if a visitor has JavaScript turned off and the form posts normally |
 | `privacy.html` | Privacy policy linked from the form |
 | `_headers` | Security headers, including a content security policy that allows Turnstile, Google Fonts and Cloudflare Web Analytics |
@@ -23,22 +23,22 @@ No build step. No dependencies.
 ## Before launch: placeholders to replace
 
 1. ~~Turnstile site key in `index.html`~~ (done).
-2. `images/hero.jpg` and `images/john-headshot.jpg`.
-3. `favicon.svg`, if you want the real logo mark.
+2. `images/hero.jpg` and `image## 1. Deploy (Cloudflare Worker)
 
-## 1. Deploy on Cloudflare Pages
+The Worker is named `orlandogolfcoaching` (set in `wrangler.jsonc`). There is no build step.
 
-1. Push this folder to the GitHub repository.
-2. Cloudflare dashboard > Workers & Pages > Create > Pages > Connect to Git, and pick the repository.
-3. Build settings: framework preset **None**, build command **empty**, build output directory **/** (or the folder name, if this site lives in a subfolder of a shared repo).
-4. After the first deploy, Custom domains > add `orlandogolfcoaching.com` and `www.orlandogolfcoaching.com`. The domain must be on Cloudflare (nameservers switched at GoDaddy; registration can stay at GoDaddy).
+- **Automatic:** the Worker is connected to this repo through Workers Builds, so a push to `main` deploys. This needs the Cloudflare Workers and Pages GitHub app to have access to the repo (FloridaCMMGroup > Settings > GitHub Apps).
+- **Manual:** from this folder, run `git ship` (push, then deploy) or `npx wrangler deploy`.
+- Custom domains: `orlandogolfcoaching.com` and `www.orlandogolfcoaching.com`, under the Worker's Settings > Domains and Routes.
+
+re (nameservers switched at GoDaddy; registration can stay at GoDaddy).
 
 ## 2. Turnstile (spam protection)
 
 1. Cloudflare dashboard > Turnstile > Add widget.
 2. Hostnames: `orlandogolfcoaching.com` and the `*.pages.dev` preview hostname.
 3. Widget mode: Managed. The page uses `data-appearance="interaction-only"`, so most visitors never see it.
-4. Put the **site key** in `index.html`. Put the **secret key** in the Pages variable `TURNSTILE_SECRET_KEY` (below).
+4. Put the **site key** in `index.html`. Put the **secret key** in the Worker secret `TURNSTILE_SECRET_KEY` (below).
 
 ## 3. ActiveCampaign setup
 
@@ -73,9 +73,9 @@ The function also adds a **note** to the contact with every answer, so John sees
 - List ID: open the list; the number is in the address bar.
 - Tag ID and field IDs: with the API key, `GET {API_URL}/api/3/tags?search=LP-orlandogolfcoaching` and `GET {API_URL}/api/3/fields`, or look in the address bar when editing them.
 
-## 4. Pages variables (Settings > Variables and Secrets)
+## 4. Worker variables (Settings > Variables and Secrets, not the Build section)
 
-Set these for **Production** (and Preview, if you'll test there). Mark the two keys as encrypted secrets.
+The two keys are secrets added in the dashboard. Everything else is already set in `wrangler.jsonc`; the table is for reference.
 
 | Variable | Value | Required |
 | --- | --- | --- |
@@ -102,7 +102,7 @@ Any field variable left blank is skipped. Redeploy after changing variables.
 2. Check: contact in ActiveCampaign with fields filled in, on the OrlandoGolfCoaching.com Lead List, tagged, with a note.
 3. Check: confirmation email arrived, and John's alert arrived.
 4. Check a bad submission (wrong email) shows a clear message on the page.
-5. If something fails, Cloudflare > the Pages project > Functions > real-time logs shows the reason.
+5. If something fails, Cloudflare > the Worker > Observability (or `npx wrangler tail`) shows the reason.
 
 ## 6. Redirects
 
@@ -113,4 +113,4 @@ Any field variable left blank is skipped. Redeploy after changing variables.
 
 ## 7. Analytics
 
-Turn on Cloudflare Web Analytics for the Pages project (no code change; the content security policy already allows it). If you add Google Analytics later, add its domains to `_headers`. The page already fires a `call_requested` event into `dataLayer` and `gtag` when a request goes through.
+Turn on Cloudflare Web Analytics for the Worker (no code change; the content security policy already allows it). If you add Google Analytics later, add its domains to `_headers`. The page already fires a `call_requested` event into `dataLayer` and `gtag` when a request goes through.
