@@ -1,4 +1,4 @@
-// Call-request form for golflessonsinorlando.com
+// Call-request form for orlandogolfcoaching.com
 // Sends the form to /api/request-call (a Cloudflare Pages Function), which checks
 // Cloudflare Turnstile and then creates the contact in ActiveCampaign.
 (function () {

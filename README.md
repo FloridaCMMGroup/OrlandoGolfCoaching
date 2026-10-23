@@ -22,7 +22,7 @@ No build step. No dependencies.
 
 ## Before launch: placeholders to replace
 
-1. `REPLACE_WITH_TURNSTILE_SITE_KEY` in `index.html`.
+1. ~~Turnstile site key in `index.html`~~ (done).
 2. `images/hero.jpg` and `images/john-headshot.jpg`.
 3. `favicon.svg`, if you want the real logo mark.
 
@@ -80,6 +80,7 @@ Set these for **Production** (and Preview, if you'll test there). Mark the two k
 | Variable | Value | Required |
 | --- | --- | --- |
 | `TURNSTILE_SECRET_KEY` | from Turnstile | Yes, secret |
+| `TURNSTILE_HOSTNAMES` | Leave blank for orlandogolfcoaching.com and www. To test on a preview, list every hostname, comma separated, e.g. `orlandogolfcoaching.com,www.orlandogolfcoaching.com,xyz.pages.dev` | Optional |
 | `AC_API_URL` | `https://johnhughesgolf.api-us1.com` | Yes |
 | `AC_API_KEY` | from ActiveCampaign | Yes, secret |
 | `AC_LIST_ID` | `12` | Yes |

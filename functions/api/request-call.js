@@ -33,11 +33,12 @@ export async function onRequestPost(context) {
     return respond(wantsJson, 200, true);
   }
 
-  // Turnstile check.
-  const token = clean(data['cf-turnstile-response'], 2048);
-  const human = await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, request.headers.get('CF-Connecting-IP'));
+  // Turnstile check. The token must be a non-empty string of at most 2048 characters.
+  const token = data['cf-turnstile-response'];
+  const tokenOk = typeof token === 'string' && token.length > 0 && token.length <= 2048;
+  const human = tokenOk && await verifyTurnstile(token, env, request.headers.get('CF-Connecting-IP'));
   if (!human) {
-    return respond(wantsJson, 400, false, 'The security check didn\u2019t pass. Refresh the page and try again.');
+    return respond(wantsJson, 403, false, 'The security check didn\u2019t pass. Refresh the page and try again.');
   }
 
   // Validate and tidy the answers.
@@ -84,16 +85,48 @@ export async function onRequestPost(context) {
   return respond(wantsJson, 200, true);
 }
 
-async function verifyTurnstile(token, secret, ip) {
-  if (!token || !secret) return false;
-  const body = new FormData();
-  body.append('secret', secret);
-  body.append('response', token);
+// Must match data-action on the widget in index.html.
+const TURNSTILE_ACTION = 'request_call';
+// Sites allowed to send tokens. Set TURNSTILE_HOSTNAMES (comma separated) to
+// replace this list, for example to add a *.pages.dev preview hostname for testing.
+const DEFAULT_HOSTNAMES = ['orlandogolfcoaching.com', 'www.orlandogolfcoaching.com'];
+
+async function verifyTurnstile(token, env, ip) {
+  const secret = env.TURNSTILE_SECRET_KEY;
+  if (!secret) {
+    console.error('Turnstile error: TURNSTILE_SECRET_KEY is not set');
+    return false;
+  }
+  const hostnames = (env.TURNSTILE_HOSTNAMES || '')
+    .split(',').map((h) => h.trim().toLowerCase()).filter(Boolean);
+  const allowed = hostnames.length ? hostnames : DEFAULT_HOSTNAMES;
+
+  const body = new URLSearchParams({ secret, response: token });
   if (ip) body.append('remoteip', ip);
   try {
-    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body });
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body,
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!res.ok) {
+      console.error('Turnstile error: siteverify returned', res.status);
+      return false;
+    }
     const out = await res.json();
-    return out.success === true;
+    if (out.success !== true) {
+      console.error('Turnstile failed:', (out['error-codes'] || []).join(', '));
+      return false;
+    }
+    if (out.action !== TURNSTILE_ACTION) {
+      console.error('Turnstile failed: wrong action', out.action);
+      return false;
+    }
+    if (!allowed.includes(String(out.hostname || '').toLowerCase())) {
+      console.error('Turnstile failed: hostname not allowed', out.hostname);
+      return false;
+    }
+    return true;
   } catch (e) {
     console.error('Turnstile error:', e && e.message);
     return false;
