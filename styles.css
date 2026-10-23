@@ -1,0 +1,212 @@
+/* John Hughes Golf landing page. Palette from John's brand colors: deep purple, orange, light lavender. */
+:root {
+  --purple: #3B1F5C;
+  --ink: #24133A;
+  --muted: #5E5070;
+  --orange: #F08A24;
+  --orange-deep: #D9740F;
+  --lavender: #EEE8F6;
+  --rule: #D6CCE4;
+  --paper: #FFFFFF;
+  --error: #A3261B;
+  --measure: 66ch;
+  --font: "Archivo", "Helvetica Neue", Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: env(safe-area-inset-top, 0px); -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--purple); text-underline-offset: 0.18em; }
+a:hover { color: var(--orange-deep); }
+:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: 2px; }
+
+.skip { position: absolute; left: -9999px; top: 0; }
+.skip:focus { left: 1rem; top: 1rem; z-index: 10; background: var(--paper); padding: .5rem .75rem; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.wrap { width: min(1120px, 100% - 2.5rem); margin-inline: auto; }
+.prose { max-width: var(--measure); }
+
+h1, h2, h3 { font-stretch: 75%; line-height: 1.02; color: var(--purple); margin: 0 0 .6em; }
+h1 { font-size: clamp(2.75rem, 7vw, 5.25rem); font-weight: 800; letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.9rem, 3.6vw, 2.75rem); font-weight: 780; }
+h3 { font-size: 1.45rem; font-weight: 720; }
+p { margin: 0 0 1em; }
+
+/* Masthead */
+.masthead { padding-top: env(safe-area-inset-top, 0px); border-bottom: 1px solid var(--rule); }
+.masthead-inner { display: flex; justify-content: space-between; align-items: center; min-height: 64px; }
+.brand { font-weight: 800; font-stretch: 75%; font-size: 1.35rem; color: var(--purple); text-decoration: none; }
+.masthead-phone { font-weight: 600; text-decoration: none; }
+
+/* Buttons */
+.button {
+  display: inline-block;
+  background: var(--orange);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: .9rem 1.6rem;
+  border: 0;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.button:hover { background: var(--orange-deep); color: var(--ink); }
+.button[disabled] { opacity: .6; cursor: progress; }
+
+/* Hero */
+.hero { padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(2.5rem, 5vw, 4rem); }
+.hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: end; }
+.lede { font-size: 1.25rem; color: var(--muted); max-width: 38ch; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.25rem; margin-top: 1.75rem; }
+.hero-note { color: var(--muted); font-size: .95rem; max-width: 28ch; }
+.hero-photo { margin: 0; background: var(--lavender); border-radius: 0 0 0 96px; overflow: hidden; aspect-ratio: 9 / 11; }
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Bands */
+.band { padding: clamp(3rem, 7vw, 5.5rem) 0; }
+.band-tight { padding-top: clamp(1rem, 3vw, 2rem); }
+.band-dark { background: var(--purple); color: #F3EEF9; }
+.band-dark h2 { color: #FFFFFF; }
+.band-dark a { color: #FFFFFF; }
+.band-lavender { background: var(--lavender); }
+.section-title { max-width: 22ch; }
+
+/* Lesson formats: three columns separated by rules, not cards */
+.formats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 3px solid var(--purple); }
+.format { padding: 1.5rem 1.75rem 0 0; }
+.format + .format { padding-left: 1.75rem; border-left: 1px solid var(--rule); }
+.formats-note { margin-top: 2rem; }
+
+/* Technology */
+.big-line { font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 700; font-stretch: 80%; color: var(--orange); margin-bottom: 2rem; }
+.tech { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 0 0 2rem; }
+.tech div { border-top: 1px solid rgba(255,255,255,.35); padding-top: 1rem; }
+.tech dt { font-weight: 700; font-size: 1.15rem; margin-bottom: .5rem; color: #FFFFFF; }
+.tech dd { margin: 0; }
+
+/* Two columns */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
+.two-col ul { padding-left: 1.2em; margin: 0; }
+.two-col li + li { margin-top: .4em; }
+
+/* Scorecard */
+.scorecard { width: 100%; max-width: 900px; border-collapse: collapse; background: var(--paper); margin-top: 1rem; border: 2px solid var(--purple); }
+.scorecard thead th { background: var(--purple); color: #FFFFFF; text-align: left; font-weight: 700; font-size: .95rem; padding: .6rem 1rem; }
+.scorecard td, .scorecard tbody th { border-top: 1px solid var(--rule); padding: 1rem; vertical-align: top; text-align: left; font-weight: 400; }
+.scorecard td:first-child { width: 4.5rem; text-align: center; font-weight: 800; font-stretch: 75%; font-size: 1.6rem; color: var(--purple); border-right: 1px solid var(--rule); }
+.scorecard tbody th { width: 52%; border-right: 1px solid var(--rule); }
+.scorecard .blank { background-image: repeating-linear-gradient(transparent 0 30px, var(--rule) 30px 31px); }
+
+/* Steps */
+.steps { padding-left: 1.4em; }
+.steps li { padding-left: .3em; margin-bottom: .8em; }
+.steps li::marker { font-weight: 800; color: var(--purple); }
+
+/* Coach */
+.coach { display: grid; grid-template-columns: 300px 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+.coach-photo { background: var(--lavender); border-radius: 0 0 0 64px; aspect-ratio: 6 / 7; object-fit: cover; width: 100%; }
+
+/* FAQ */
+.faq details { border-top: 1px solid var(--rule); padding: .9rem 0; }
+.faq details:last-child { border-bottom: 1px solid var(--rule); }
+.faq summary { cursor: pointer; font-weight: 700; font-size: 1.1rem; color: var(--purple); }
+.faq details p { margin: .6rem 0 0; }
+
+/* Request section and form */
+.request { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+.request-phone { font-weight: 600; }
+.request-panel { background: var(--paper); border-top: 6px solid var(--purple); padding: clamp(1.5rem, 4vw, 2.5rem); }
+.call-form { display: grid; gap: 1.25rem; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.field { display: grid; gap: .4rem; margin: 0; }
+.field > label, legend { font-weight: 650; color: var(--ink); }
+.optional { font-weight: 400; color: var(--muted); font-size: .9rem; margin-left: .35rem; }
+input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+  font: inherit; color: var(--ink); background: var(--paper);
+  border: 1.5px solid #B9AACD; border-radius: 6px; padding: .7rem .8rem; width: 100%;
+}
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--orange); outline-offset: 1px; border-color: var(--purple); }
+textarea { resize: vertical; min-height: 5.5rem; }
+.choices { border: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+.choices legend { padding: 0; margin-bottom: .4rem; width: 100%; }
+.choices label, .consent label { display: inline-flex; gap: .55rem; align-items: center; cursor: pointer; }
+.consent label { align-items: flex-start; font-size: .95rem; }
+.consent input { margin-top: .3rem; }
+input[type="radio"], input[type="checkbox"] { width: 1.15rem; height: 1.15rem; accent-color: var(--purple); flex: none; }
+.hint { font-size: .875rem; color: var(--muted); margin: 0; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.button-submit { justify-self: start; }
+.form-status { margin: 0; color: var(--error); font-weight: 600; }
+.form-status:empty { display: none; }
+[aria-invalid="true"] { border-color: var(--error) !important; }
+.thanks h3 { font-size: 2rem; }
+.thanks:focus { outline: none; }
+
+/* Footer */
+.footer { border-top: 1px solid var(--rule); padding: 2rem 0 calc(2rem + env(safe-area-inset-bottom, 0px)); font-size: .95rem; color: var(--muted); }
+.footer-inner { display: flex; flex-wrap: wrap; gap: .5rem 2rem; }
+.footer p { margin: 0; }
+
+/* Small screens */
+@media (max-width: 860px) {
+  .hero-grid, .two-col, .request, .coach { grid-template-columns: 1fr; }
+  .hero-photo { max-width: 460px; }
+  .coach-photo { max-width: 280px; }
+  .formats, .tech { grid-template-columns: 1fr; }
+  .format, .format + .format { padding: 1.25rem 0; border-left: 0; }
+  .format + .format { border-top: 1px solid var(--rule); }
+}
+@media (max-width: 560px) {
+  .field-row { grid-template-columns: 1fr; }
+  .scorecard td:first-child { width: 3rem; font-size: 1.3rem; }
+  .scorecard tbody th, .scorecard td { padding: .75rem; }
+  .scorecard .blank { display: none; }
+  .scorecard thead th:last-child { display: none; }
+  .scorecard tbody th { width: auto; border-right: 0; }
+}
+
+/* Prose sections that share the .wrap element stay left-aligned with the rest of the page */
+.wrap.prose { max-width: none; }
+.wrap.prose > * { max-width: var(--measure); }
+.choices > label, .consent > label { font-weight: 400; }
+
+/* Privacy policy */
+.policy h2 { font-size: clamp(1.5rem, 2.6vw, 1.9rem); margin-top: 2.2em; }
+.policy h3 { font-size: 1.2rem; margin-top: 1.4em; }
+.policy ul { padding-left: 1.2em; }
+.policy li + li { margin-top: .4em; }
+
+/* orlandogolfcoaching.com additions */
+.phases { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 3px solid var(--purple); }
+.phases li { padding: 1.25rem 1.5rem 0 0; }
+.phases li + li { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
+.phase-num { display: block; font-weight: 800; font-stretch: 75%; font-size: 2.6rem; line-height: 1; color: var(--orange-deep); margin-bottom: .4rem; }
+.phases h3 { margin-bottom: .4rem; }
+.scorecard td.why { color: var(--muted); }
+.tracker-note { margin-top: 1.25rem; }
+.programs dt { font-size: 1.3rem; }
+@media (max-width: 860px) {
+  .phases { grid-template-columns: 1fr 1fr; }
+  .phases li, .phases li + li { padding: 1.25rem 0; border-left: 0; }
+  .phases li:nth-child(even) { padding-left: 1.25rem; border-left: 1px solid var(--rule); }
+}
+@media (max-width: 560px) {
+  .phases { grid-template-columns: 1fr; }
+  .phases li:nth-child(even) { padding-left: 0; border-left: 0; }
+  .phases li + li { border-top: 1px solid var(--rule); }
+  .scorecard td.why { display: table-cell; }
+  .scorecard thead th:last-child { display: table-cell; }
+}
