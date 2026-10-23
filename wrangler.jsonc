@@ -1,0 +1,28 @@
+{
+  "name": "orlandogolfcoaching",
+  "main": "worker.js",
+  "compatibility_date": "2025-09-01",
+  // Keep variables set in the Cloudflare dashboard when a deploy runs.
+  "keep_vars": true,
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  // ActiveCampaign settings that are not secret. The two keys
+  // (TURNSTILE_SECRET_KEY and AC_API_KEY) are added as secrets in the
+  // Cloudflare dashboard and must never be put in this file.
+  "vars": {
+    "AC_API_URL": "https://johnhughesgolf.api-us1.com",
+    "AC_LIST_ID": "12",
+    "AC_TAG_ID": "150",
+    "AC_FIELD_BEST_TIME": "48",
+    "AC_FIELD_INTEREST": "49",
+    "AC_FIELD_START_TIMING": "50",
+    "AC_FIELD_SCORE": "51",
+    "AC_FIELD_GOAL": "52",
+    "AC_FIELD_SOURCE_DOMAIN": "53",
+    "AC_FIELD_UTM": "54",
+    "AC_FIELD_CONSENT": "55"
+  }
+}
