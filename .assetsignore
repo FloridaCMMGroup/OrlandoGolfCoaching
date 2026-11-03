@@ -8,3 +8,4 @@ redirects.csv
 node_modules
 .wrangler
 README.md
+CHANGELOG.md

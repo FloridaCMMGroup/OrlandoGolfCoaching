@@ -5,6 +5,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RGXYCXNM4F"></script>
 <script src="/analytics.js"></script>
 <meta charset="utf-8">
+<meta name="build-version" content="1.2">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Golf Coaching in Orlando: Season-Long Programs with John Hughes</title>
 <meta name="description" content="A golf coaching program built around your goals, measured by your numbers. Work with PGA Master Professional John Hughes and his PGA coaches in Orlando.">
@@ -161,6 +162,7 @@
           <dd>One golfer, one coach, with on-course coaching every day. Visiting Orlando? This is the way to get the most out of a short stay.</dd>
         </div>
       </dl>
+      <p class="prose tech-note">Every program includes virtual follow-up, so you can send swing video between sessions and get feedback and your next drills back.</p>
     </div>
   </section>
 
@@ -180,7 +182,8 @@
       <h2>Questions golfers ask</h2>
       <div class="faq">
         <details><summary>How long is a coaching program?</summary><p>It depends on your goal. Most golfers think in terms of a season. We'll set the length and schedule on our call.</p></details>
-        <details><summary>How much does it cost?</summary><p>That depends on the program and how often we meet. I'll walk you through the options on our call, so you only pay for what fits your goal.</p></details>
+        <details><summary>How much does it cost?</summary><p>Every program is customized to your unique improvement needs, so pricing is built around your goals. I'll walk you through the options on our call.</p></details>
+        <details><summary>What happens between sessions?</summary><p>Virtual follow-up is built into every John Hughes Golf coaching program. Send swing video whenever you need a check, and get feedback and your next drills back.</p></details>
         <details><summary>Where is coaching held?</summary><p>At Omni Orlando Resort at ChampionsGate.</p></details>
         <details><summary>Will I work with you or another coach?</summary><p>I'll talk with you personally first. Custom coaching programs are led by my PGA staff coaches. Coaching memberships of 10 hours or more are the way to schedule time with me.</p></details>
         <details><summary>Can I book online?</summary><p>Not directly. Every new client starts with a call with me, so we're sure it's the right fit before you invest a dollar.</p></details>
@@ -238,15 +241,15 @@
           </div>
 
           <fieldset class="field choices">
-            <legend>When would you like to get started? <span class="optional">Optional</span></legend>
-            <label><input type="radio" name="start_timing" value="This week"> This week</label>
+            <legend>When would you like to get started?</legend>
+            <label><input type="radio" name="start_timing" value="This week" required> This week</label>
             <label><input type="radio" name="start_timing" value="This month"> This month</label>
             <label><input type="radio" name="start_timing" value="Just exploring"> Just exploring</label>
           </fieldset>
 
           <div class="field">
-            <label for="score">Typical 18-hole score <span class="optional">Optional</span></label>
-            <select id="score" name="score">
+            <label for="score">Typical 18-hole score</label>
+            <select id="score" name="score" required>
               <option value="">Choose one</option>
               <option>Under 80</option>
               <option>80 to 89</option>
@@ -257,8 +260,8 @@
           </div>
 
           <div class="field">
-            <label for="goal">Your goal for this season <span class="optional">Optional</span></label>
-            <textarea id="goal" name="goal" rows="3" maxlength="300" aria-describedby="goal-count"></textarea>
+            <label for="goal">Your goal for this season</label>
+            <textarea id="goal" name="goal" rows="3" maxlength="300" required aria-describedby="goal-count"></textarea>
             <p class="hint" id="goal-count">300 characters left</p>
           </div>
 
