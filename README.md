@@ -11,7 +11,7 @@ Landing page #2 for John Hughes Golf: season-long golf coaching programs. Same b
 | `app.js` | Form behavior: fills hidden tracking fields, checks required fields, sends the form, shows the thank-you message |
 | `functions/api/request-call.js` | Form handler for `/api/request-call`, called from `worker.js`. Checks Turnstile, validates, sends the lead to ActiveCampaign |
 | `thank-you.html` | Shown only if a visitor has JavaScript turned off and the form posts normally |
-| `privacy.html` | Privacy policy linked from the form |
+| `_redirects` | Forwards /privacy.html to the John Hughes Golf Privacy Policy and Terms of Service on johnhughesgolf.com |
 | `_headers` | Security headers, including a content security policy that allows Turnstile, Google Fonts and Cloudflare Web Analytics |
 | `robots.txt`, `sitemap.xml` | Search engine files |
 | `favicon.svg` | Placeholder icon. Replace with the John Hughes Golf mark |
